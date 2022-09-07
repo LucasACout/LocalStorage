@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="shortcut icon" href="icon.ico" type="image/x-icon">
+    <title>LocalStorage</title>
+  </head>
+  <body>
+    <div class="container">
+      <form class="mt-5">
+        <h1 class="display-4">Form</h1>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputNome">Nome</label>
+            <input type="text" name="nome" class="form-control" id="inputNome" placeholder="Nome" required>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputEmail">Email</label>
+            <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="dtnasc">Data de nascimento</label>
+            <input type="text" name="dtnasc" class="form-control" id="dtnasc" placeholder="00/00/0000" required>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="tel">Telefone</label>
+            <input type="tel" name="phone" class="form-control" id="tel" placeholder="(00) 00000-0000" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputCity">Cidade</label>
+            <input type="text" name="cidade" class="form-control" id="inputCity" required>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputState">Estado</label>
+            <select id="UF" name="estado" class="form-control" required>
+              <option value="">Selecione</option>
+              <option value="AC">Acre</option>
+              <option value="AL">Alagoas</option>
+              <option value="AP">Amapá</option>
+              <option value="AM">Amazonas</option>
+              <option value="BA">Bahia</option>
+              <option value="CE">Ceará</option>
+              <option value="DF">Distrito Federal</option>
+              <option value="ES">Espirito Santo</option>
+              <option value="GO">Goiás</option>
+              <option value="MA">Maranhão</option>
+              <option value="MS">Mato Grosso do Sul</option>
+              <option value="MT">Mato Grosso</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="PA">Pará</option>
+              <option value="PB">Paraíba</option>
+              <option value="PR">Paraná</option>
+              <option value="PE">Pernambuco</option>
+              <option value="PI">Piauí</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="RN">Rio Grande do Norte</option>
+              <option value="RS">Rio Grande do Sul</option>
+              <option value="RO">Rondônia</option>
+              <option value="RR">Roraima</option>
+              <option value="SC">Santa Catarina</option>
+              <option value="SP">São Paulo</option>
+              <option value="SE">Sergipe</option>
+              <option value="TO">Tocantins</option>
+          </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="cep">CEP</label>
+            <input type="text" name="cep" class="form-control" id="cep" placeholder="00000-000" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-dark" style="width: 150px;">Cadastrar</button>
+        <button type="button" class="btn btn-dark" style="width: 150px;" id="listar">Listar</button>
+        <button type="button" class="btn btn-dark" style="width: 150px;" id="apagar">Apagar</button>
+      </form>
+      <!--  -->
+      <div class="row">
+        <div class="col-12 mt-5">
+          <h1 class="display-4">Lista</h1>
+          <div class="bg-dark rounded text-white" style="width: 100%; height: 200px; overflow-y: auto;">
+            <div class="container p-3">
+              <div id="lista">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+    <!-- Outros -->
+    <script src="js/jquery-3.6.1.js"></script>
+    <script src="js/jquery.mask.js"></script>
+
+    <script>
+
+      $(document).ready(function(){
+        $('#dtnasc').mask('00/00/0000');
+        $('#tel').mask('(00) 00000-0000');
+        $('#cep').mask('00000-000');
+
+        $('form').submit(function(){
+          event.preventDefault();
+
+          let formArray = $('form').serializeArray();
+          let obj = new Object();
+
+          obj.nome = formArray[0]['value'];
+          obj.email = formArray[1]['value'];
+          obj.dtnasc = formArray[2]['value'];
+          obj.tel = formArray[3]['value'];
+          obj.cidade = formArray[4]['value'];
+          obj.estado = formArray[5]['value'];
+          obj.cep = formArray[6]['value'];
+
+          let JSONFormat = JSON.stringify(obj);
+
+          let numKey = localStorage.length;
+          localStorage.setItem(numKey+1, JSONFormat);
+
+          this.reset();
+
+        });
+
+        $('#listar').click(function(){
+          $('#lista').html('');
+          if(localStorage.length){
+            for(i = 1; i < localStorage.length; i++){
+              $('#lista').append(localStorage.getItem(i));
+              $('#lista').append('<br>');
+            }
+          }
+        });
+
+        $('#apagar').click(function(){
+          if(localStorage.length){
+            localStorage.clear();
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
